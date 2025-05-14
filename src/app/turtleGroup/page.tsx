@@ -56,22 +56,24 @@ export default function ProgressApp() {
                             dispatch({ type: 'updateInput', index, value: e.target.value })
                         }
                         placeholder="تعداد قدم امروز"
-                        className="w-full border p-2 rounded"
+                        className="w-full border p-2 rounded text-right"
                     />
-                    <button
-                        onClick={() => dispatch({ type: 'submitStep', index })}
-                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                    >
-                        ثبت
-                    </button>
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => dispatch({ type: 'submitStep', index })}
+                            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                        >
+                            ثبت
+                        </button>
+                    </div>
 
-                    <div className="relative h-6 bg-gray-300 rounded overflow-hidden mt-2">
+                    <div className="relative h-6 bg-gray-300 rounded overflow-hidden mt-2 flex justify-end">
                         {/* لاک‌پشت 🐢 */}
                         <div
                             className="absolute -top-1 text-xl transition-all duration-300"
                             style={{
-                                left: `${(state.progresses[index] / 30) * 100}%`,
-                                transform: 'translateX(-50%)',
+                                width: `${(state.progresses[index] / 30) * 100}%`,
+                                marginLeft: 'auto',
                             }}
                         >
                             🐢
