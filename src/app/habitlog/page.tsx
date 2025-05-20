@@ -32,8 +32,7 @@ export default function Habitlog() {
             exercise_minutes: exerciseMinutes,
             exercise_description: exerciseDescription,
             walking_steps: walkingSteps,
-            // user_id: "4ce73c2c2df544fda6f52b98cee512db" // کد فرهنگ
-            user_id: userId // پیشنهاد جیبوتی
+            user_id: userId 
         };
 
         if (!userId) {
@@ -41,7 +40,7 @@ export default function Habitlog() {
             return;
         }
 
-        const url = "https://fitbond-backend.onrender.com";
+        const url = "https://fitbond-backend.onrender.com/api/logs/create/";
 
         const response = await axios.post(url, body, config)
 

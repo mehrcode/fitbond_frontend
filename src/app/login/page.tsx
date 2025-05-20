@@ -23,7 +23,7 @@ const Login: React.FC = () => {
         }
 
         const body = formData;
-        const url = "http://127.0.0.1:8000/api/account/";
+        const url = "https://fitbond-backend.onrender.com/api/token";
 
         const response = await axios.post(url, body, config)
 
