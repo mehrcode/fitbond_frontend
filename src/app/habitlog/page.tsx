@@ -41,7 +41,7 @@ export default function Habitlog() {
             return;
         }
 
-        const url = "http://127.0.0.1:8000/habit/logs/create/";
+        const url = "https://fitbond-backend.onrender.com";
 
         const response = await axios.post(url, body, config)
 
