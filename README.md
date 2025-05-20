@@ -24,3 +24,6 @@ npm install
 
 # Run the development server
 npm run dev
+
+# 
+this app is made with love by mehrnoosh shoolestani specialy for people who suffers from perfectionism.

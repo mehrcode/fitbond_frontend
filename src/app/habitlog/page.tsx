@@ -11,7 +11,8 @@ export default function Habitlog() {
     const [exerciseMinutes, setExerciseMinutes] = useState<number>(0);
     const [exerciseDescription, setExerciseDescription] = useState("");
     const [walkingSteps, setWalkingSteps] = useState<number>(0);
-    // const [userId, setUserId] = useState("");
+    
+    const token = localStorage.getItem("access");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -20,10 +21,10 @@ export default function Habitlog() {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
             },
         };
-        
-        const token = localStorage.getItem("access");
+
         const userId = token ? jwtDecode<CustomJwtPayload>(token).user_id : null;
 
         console.log(userId)
@@ -32,7 +33,7 @@ export default function Habitlog() {
             exercise_minutes: exerciseMinutes,
             exercise_description: exerciseDescription,
             walking_steps: walkingSteps,
-            user_id: userId 
+            user_id: userId
         };
 
         if (!userId) {
