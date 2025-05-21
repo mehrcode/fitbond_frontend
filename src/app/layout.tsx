@@ -17,12 +17,12 @@ export default function RootLayout({
     <html lang="fa">
       <body className="bg-[#fef8e0] text-black font-sans">
         <header className="w-full p-4 bg-[#4b2e83] text-white flex justify-between items-center">
-          <Link href="/" className="text-lg font-bold hover:underline">
+          <Link href="/" className="text-lg font-bold">
             🍏FitBond
           </Link>
-          <nav className="space-x-4">
-            <Link href="/login" className="hover:underline">ورود</Link>
-            <Link href="/register" className="hover:underline">ثبت‌نام</Link>
+          <nav className="space-x-4 flex gap-2">
+            <Link href="/login" className="hover:border-b-2">ورود</Link>
+            <Link href="/register" className="hover:border-b-2">ثبت‌نام</Link>
           </nav>
         </header>
         <main className="p-6">{children}</main>
