@@ -1,10 +1,38 @@
+'use client';
+import React, { useEffect } from 'react';
+import { useRouter } from "next/navigation";
 import Habitlog from "./habitlog/page";
 
 
-export default function Home() {
+export default function WelcomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("access");
+    if (token) {
+      router.replace("/habitlog");
+    }
+  }, [router]);
+
   return (
-    <main className="flex justify-center items-center min-h-screen bg-gray-50">
-      <Habitlog />
-    </main>
+    <div className='min-h-screen flex flex-col items-center justify-center'>
+      <h1 className='text-4xl font-bold mb-6'>به فیت باند خوش اومدی</h1>
+      <p className='mb-8 text-center'>
+        برای شروع اول ورود کن یا ثبت نام کن
+      </p>
+      <div className="flex gap-4">
+        <button
+          onClick={() => router.push("/login")}
+          className='px-6 py-3 bg-[#4b2e83] hover:bg-[#3a2466] text-white rounded font-semibold'>
+          ورود
+        </button>
+        <button
+          onClick={() => router.push("/register")}
+          className='px-6 py-3 bg-[#4b2e83] hover:bg-[#3a2466] text-white rounded font-semibold'
+        >
+          ثبت نام
+        </button>
+      </div>
+    </div>
   );
 }
