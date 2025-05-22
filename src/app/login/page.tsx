@@ -8,11 +8,9 @@ const Login: React.FC = () => {
 
     const handleLoginSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        console.log("clicked")
+        console.log("clicked");
 
-        const formData = new FormData();
-        formData.append("email", email);
-        formData.append("password", password);
+        const body = JSON.stringify({ email, password });
 
         const config = {
             headers: {
@@ -20,20 +18,21 @@ const Login: React.FC = () => {
                 "Accept": "application/json",
             },
             timeout: 5000,
+        };
+
+        const url = "https://fitbond-backend.onrender.com/api/token/";
+
+        try {
+            const response = await axios.post(url, body, config);
+
+            if (response.data) {
+                console.log(response.data.access);
+                localStorage.setItem("access", response.data.access);
+            }
+        } catch (error) {
+            console.log("Login failed:", error);
         }
-
-        const body = formData;
-        const url = "https://fitbond-backend.onrender.com/api/token";
-
-        const response = await axios.post(url, body, config)
-
-        if (response.data) {
-            console.log(response.data.access)
-            localStorage.setItem("access", response.data.access)
-
-        }
-
-    }
+    };
 
     return (
         <div>
