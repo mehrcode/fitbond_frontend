@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
 import { useRouter } from "next/navigation";
-import Habitlog from "./habitlog/page";
 
 
 export default function WelcomePage() {
@@ -10,9 +9,9 @@ export default function WelcomePage() {
   useEffect(() => {
     const token = localStorage.getItem("access");
     if (token) {
-      router.replace("/habitlog");
+      router.push("/habitlog");
     }
-  }, [router]);
+  }, []);
 
   return (
     <div className='min-h-screen flex flex-col items-center justify-center'>
