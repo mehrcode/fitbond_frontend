@@ -25,7 +25,8 @@ const Login: React.FC = () => {
             timeout: 5000,
         };
 
-        const url = 'http://127.0.0.1:8000/api/token/'; // ✅ Make sure your backend is running
+        const url = "https://fitbond-frontend.vercel.app/api/token/";
+         
 
         try {
             const response = await axios.post(url, body, config);
