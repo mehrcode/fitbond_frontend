@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from "react"
+
+import React, { useState, useEffect } from "react"
 import axios from "axios";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
@@ -11,11 +12,26 @@ export default function Habitlog() {
     const [exerciseMinutes, setExerciseMinutes] = useState<number>(0);
     const [exerciseDescription, setExerciseDescription] = useState("");
     const [walkingSteps, setWalkingSteps] = useState<number>(0);
-    
-    const token = localStorage.getItem("access");
+    const [token, setToken] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
+
+    // 👇 دریافت توکن و userId فقط در مرورگر
+    useEffect(() => {
+        const storedToken = localStorage.getItem("access");
+        setToken(storedToken);
+        if (storedToken) {
+            const decoded = jwtDecode<CustomJwtPayload>(storedToken);
+            setUserId(decoded.user_id);
+        }
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!token || !userId) {
+            alert("user not logged in.");
+            return;
+        }
 
         const config = {
             headers: {
@@ -25,28 +41,24 @@ export default function Habitlog() {
             },
         };
 
-        const userId = token ? jwtDecode<CustomJwtPayload>(token).user_id : null;
-
-        console.log(userId)
-
         const body = {
             exercise_minutes: exerciseMinutes,
             exercise_description: exerciseDescription,
             walking_steps: walkingSteps,
-            user_id: userId
         };
 
-        if (!userId) {
-            alert("user not logged in.");
-            return;
-        }
+        try {
+            const response = await axios.post(
+                "http://localhost:8000/habit/logs/create/",
+                body,
+                config
+            );
 
-        const url = "https://fitbond-backend.onrender.com/api/logs/create/";
-
-        const response = await axios.post(url, body, config)
-
-        if (response.data) {
-            console.log(response.data);
+            if (response.data) {
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.log("Error submitting log:", error);
         }
     };
 
@@ -91,7 +103,6 @@ export default function Habitlog() {
                     <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">
                         ثبت اطلاعات
                     </button>
-
                 </div>
             </form>
         </div>
