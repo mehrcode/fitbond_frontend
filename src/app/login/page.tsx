@@ -2,10 +2,13 @@
 
 import React, { FormEvent, useState } from 'react'
 import axios from "axios"
+import { useRouter } from 'next/navigation'
+
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const router = useRouter();
 
     const handleLoginSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -18,7 +21,7 @@ const Login: React.FC = () => {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             },
-            timeout: 10000,
+            // timeout: 10000,
         };
 
         const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -30,6 +33,7 @@ const Login: React.FC = () => {
             if (response.data) {
                 console.log("access token:", response.data.access);
                 localStorage.setItem("access", response.data.access);
+                router.push("/habitlog");
             }
         } catch (error) {
             console.error("Login failed:", error);
