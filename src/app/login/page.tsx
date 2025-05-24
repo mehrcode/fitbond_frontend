@@ -1,55 +1,67 @@
 'use client'
-import React, { useState, FormEvent } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import React, { FormEvent, useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-export default function LoginPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(""); // 👈 برای نمایش ارور
+const Login: React.FC = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleLoginSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        setError(""); // هر بار ریستش کنیم
+        setError('');
+        setLoading(true);
+
+        const body = JSON.stringify({ email, password });
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            timeout: 5000,
+        };
+
+        const url = "http://localhost:8000/api/account/token/";
+
 
         try {
-            const response = await axios.post(
-                "https://fitbond-backend.onrender.com/api/token/",
-                {
-                    email,
-                    password
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    }
-                }
-            );
+            const response = await axios.post(url, body, config);
 
-            localStorage.setItem("access", response.data.access);
-            router.push("/habitlog");
-        } catch (err: any) {
-            console.error("Login failed:", err);
-            if (err.response && err.response.status === 401) {
-                setError("ایمیل یا رمز عبور اشتباه است.");
+            if (response.data.access) {
+                localStorage.setItem('access', response.data.access);
+                localStorage.setItem('refresh', response.data.refresh);
+                router.push('/habitlog');
             } else {
-                setError("مشکلی در ورود پیش آمد. دوباره امتحان کنید.");
+                setError('ورود ناموفق بود.');
+            }
+        } catch (error: any) {
+            console.error('Login failed:', error);
+
+            if (error.response) {
+                setError(`خطا: ${error.response.data.detail || 'مشکلی پیش آمده'}`);
+            } else {
+                setError('ورود ناموفق بود. لطفاً اتصال اینترنت را بررسی کن.');
             }
         }
+
+        setLoading(false);
     };
 
     return (
-        <div className="max-w-sm mx-auto mt-10 p-6 bg-white rounded shadow">
-            <h2 className="text-xl font-bold mb-4">ورود به فیت‌باند</h2>
-            <form onSubmit={handleLoginSubmit}>
+        <div className="max-w-md mx-auto p-6">
+            <h1 className="text-2xl font-bold mb-4">ورود به فیت‌باند</h1>
+            {error && <p className="text-red-500 mb-2">{error}</p>}
+            <form onSubmit={handleLoginSubmit} className="space-y-4">
                 <input
                     type="email"
                     placeholder="ایمیل"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full mb-3 px-3 py-2 border rounded"
+                    className="w-full border px-3 py-2 rounded"
                     required
                 />
                 <input
@@ -57,19 +69,15 @@ export default function LoginPage() {
                     placeholder="رمز عبور"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full mb-3 px-3 py-2 border rounded"
+                    className="w-full border px-3 py-2 rounded"
                     required
                 />
-                {error && (
-                    <div className="text-red-600 text-sm mb-3">{error}</div>
-                )}
-                <button
-                    type="submit"
-                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
-                >
-                    ورود
+                <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded" disabled={loading}>
+                    {loading ? 'لطفاً منتظر بمانید...' : 'ورود'}
                 </button>
             </form>
         </div>
     );
-}
+};
+
+export default Login;

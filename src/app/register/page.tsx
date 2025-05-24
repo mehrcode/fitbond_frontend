@@ -38,7 +38,7 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <h1>Login here</h1>
+            <h1>Register</h1>
             <form action={handleLoginSubmit}>
                 <div>
                     <input
