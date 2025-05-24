@@ -1,71 +1,75 @@
 'use client'
+import React, { useState, FormEvent } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
-import React, { FormEvent, useState } from 'react'
-import axios from "axios"
-import { useRouter } from 'next/navigation'
-
-
-const Login: React.FC = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+export default function LoginPage() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(""); // 👈 برای نمایش ارور
     const router = useRouter();
 
     const handleLoginSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        console.log("clicked");
-
-        const body = JSON.stringify({ email, password });
-
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-            // timeout: 10000,
-        };
-
-        const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-        const url = `${baseURL}/api/token/`;
+        setError(""); // هر بار ریستش کنیم
 
         try {
-            const response = await axios.post(url, body, config);
+            const response = await axios.post(
+                "https://fitbond-backend.onrender.com/api/token/",
+                {
+                    email,
+                    password
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    }
+                }
+            );
 
-            if (response.data) {
-                console.log("access token:", response.data.access);
-                localStorage.setItem("access", response.data.access);
-                router.push("/habitlog");
+            localStorage.setItem("access", response.data.access);
+            router.push("/habitlog");
+        } catch (err: any) {
+            console.error("Login failed:", err);
+            if (err.response && err.response.status === 401) {
+                setError("ایمیل یا رمز عبور اشتباه است.");
+            } else {
+                setError("مشکلی در ورود پیش آمد. دوباره امتحان کنید.");
             }
-        } catch (error) {
-            console.error("Login failed:", error);
         }
     };
 
     return (
-        <div>
-            <h1>Login here</h1>
+        <div className="max-w-sm mx-auto mt-10 p-6 bg-white rounded shadow">
+            <h2 className="text-xl font-bold mb-4">ورود به فیت‌باند</h2>
             <form onSubmit={handleLoginSubmit}>
-                <div>
-                    <input
-                        type="email"
-                        placeholder='Enter your email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="password"
-                        placeholder='Enter your password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type='submit'>
-                    Submit
+                <input
+                    type="email"
+                    placeholder="ایمیل"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full mb-3 px-3 py-2 border rounded"
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="رمز عبور"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full mb-3 px-3 py-2 border rounded"
+                    required
+                />
+                {error && (
+                    <div className="text-red-600 text-sm mb-3">{error}</div>
+                )}
+                <button
+                    type="submit"
+                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+                >
+                    ورود
                 </button>
             </form>
         </div>
     );
-};
-
-export default Login;
+}
