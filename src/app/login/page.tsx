@@ -25,7 +25,8 @@ const Login: React.FC = () => {
             timeout: 5000,
         };
 
-        const url = "http://localhost:8000/api/account/token/";
+        // const url = "http://localhost:8000/api/account/token/";
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/account/token/`; // to use env url
 
 
         try {
