@@ -18,7 +18,7 @@ const Login: React.FC = () => {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             },
-            timeout: 5000,
+            timeout: 10000,
         };
 
         const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
