@@ -6,56 +6,36 @@ import { useRouter } from 'next/navigation';
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleLoginSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        setError('');
         setLoading(true);
 
-        const body = JSON.stringify({ email, password });
-
+        const body = { email, password };
         const config = {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
-            timeout: 5000,
         };
 
-        // const url = "http://localhost:8000/api/account/token/";
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/account/token/`; // to use env url
+        const url = process.env.NEXT_PUBLIC_API_URL + "/api/account/";
+        const response = await axios.post(url, body, config);
 
-
-        try {
-            const response = await axios.post(url, body, config);
-
-            if (response.data.access) {
-                localStorage.setItem('access', response.data.access);
-                localStorage.setItem('refresh', response.data.refresh);
-                router.push('/habitlog');
-            } else {
-                setError('ورود ناموفق بود.');
-            }
-        } catch (error: any) {
-            console.error('Login failed:', error);
-
-            if (error.response) {
-                setError(`خطا: ${error.response.data.detail || 'مشکلی پیش آمده'}`);
-            } else {
-                setError('ورود ناموفق بود. لطفاً اتصال اینترنت را بررسی کن.');
-            }
+        if (response.data.access) {
+            localStorage.setItem('access', response.data.access);
+            localStorage.setItem('refresh', response.data.refresh);
+            router.push('/habitlog');
         }
 
-        setLoading(false);
+        setLoading(false); 
     };
 
     return (
         <div className="max-w-md mx-auto p-6">
             <h1 className="text-2xl font-bold mb-4">ورود به فیت‌باند</h1>
-            {error && <p className="text-red-500 mb-2">{error}</p>}
             <form onSubmit={handleLoginSubmit} className="space-y-4">
                 <input
                     type="email"
