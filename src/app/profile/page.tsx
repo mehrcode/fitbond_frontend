@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useRouter } from "next/navigation";
 
 
-export default function ProfilePage() {
+export default function Profile() {
     const [user, setUser] = useState<{ email: string; date_joined: string } | null>(null);
     const [error, setError] = useState('');
     const router = useRouter();
@@ -18,7 +18,7 @@ export default function ProfilePage() {
             return;
         }
 
-        axios.get('http://localhost:8000/api/account/profile/', {
+        axios.get('http://localhost:8000/account/profile/', {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
