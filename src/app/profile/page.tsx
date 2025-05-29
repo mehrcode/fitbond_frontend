@@ -4,8 +4,17 @@ import axios from 'axios';
 import { useRouter } from "next/navigation";
 
 
+interface UserProfile {
+    email: string,
+    phone: string,
+    username: string,
+    first_name: string,
+    last_name: string,
+    date_joined: string,
+}
+
 export default function Profile() {
-    const [user, setUser] = useState<{ email: string; date_joined: string } | null>(null);
+    const [user, setUser] = useState<UserProfile | null>(null);
     const [error, setError] = useState('');
     const router = useRouter();
 
@@ -23,13 +32,13 @@ export default function Profile() {
                 Authorization: `Bearer ${accessToken}`,
             },
         })
-        .then((res) => {
-            setUser(res.data);
-        })
-        .catch((err) => {
-            console.error(err);
-            setError('دریافت اطلاعات ناموفق بود.')
-        });
+            .then((res) => {
+                setUser(res.data);
+            })
+            .catch((err) => {
+                console.error(err);
+                setError('دریافت اطلاعات ناموفق بود.')
+            });
     }, []);
 
     return (
@@ -40,8 +49,12 @@ export default function Profile() {
             {error && <p className="text-red-500">{error}</p>}
             {user ? (
                 <div className="space-y-2">
-                    <p>ایمیل :  {user.email}</p>
-                    <p>تاریخ عضویت : {new Date(user.date_joined).toLocaleDateString('fa-IR')}</p>
+                    <p>ایمیل: {user.email}</p>
+                    <p>تلفن: {user.phone || 'ثبت نشده'}</p>
+                    <p>نام کاربری: {user.username}</p>
+                    <p>اسم: {user.first_name}</p>
+                    <p>فامیل: {user.last_name}</p>
+                    <p>تاریخ عضویت: {new Date(user.date_joined).toLocaleDateString('fa-IR')}</p>
                 </div>
             ) : (
                 <p>در حال بارگزاری ...</p>
