@@ -9,7 +9,7 @@ export default function WelcomePage() {
   useEffect(() => {
     const token = localStorage.getItem("access");
     if (token) {
-      router.push("/habitlog");
+      router.push("/home");
     }
   }, []);
 

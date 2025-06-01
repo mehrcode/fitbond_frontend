@@ -27,37 +27,45 @@ const Login: React.FC = () => {
         if (response.data.access) {
             localStorage.setItem('access', response.data.access);
             localStorage.setItem('refresh', response.data.refresh);
-            router.push('/habitlog');
+            router.push('/home');
         }
 
-        setLoading(false); 
+        setLoading(false);
     };
 
     return (
-        <div className="max-w-md mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-4">ورود به فیت‌باند</h1>
-            <form onSubmit={handleLoginSubmit} className="space-y-4">
-                <input
-                    type="email"
-                    placeholder="ایمیل"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full border px-3 py-2 rounded"
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="رمز عبور"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full border px-3 py-2 rounded"
-                    required
-                />
-                <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded" disabled={loading}>
-                    {loading ? 'لطفاً منتظر بمانید...' : 'ورود'}
-                </button>
-            </form>
+        <div className="min-h-screen bg-gradient-to-b from-pink-100 to-yellow-100 p-6 text-gray-900">
+            <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow space-y-6 text-right">
+                <h1 className="text-2xl font-bold text-center text-pink-600">ورود به فیت‌باند 🐢</h1>
+
+                <form onSubmit={handleLoginSubmit} className="space-y-4">
+                    <input
+                        type="email"
+                        placeholder="ایمیل"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full border border-gray-300 p-2 rounded text-right"
+                        required
+                    />
+                    <input
+                        type="password"
+                        placeholder="رمز عبور"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full border border-gray-300 p-2 rounded text-right"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        className="w-full bg-pink-400 text-white py-2 rounded hover:bg-pink-500 transition"
+                        disabled={loading}
+                    >
+                        {loading ? 'لطفاً منتظر بمانید...' : 'ورود 🚀'}
+                    </button>
+                </form>
+            </div>
         </div>
+
     );
 };
 

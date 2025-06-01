@@ -18,19 +18,18 @@ export default function HomePage() {
     const [message, setMessage] = useState('')
 
     const fetchStats = async () => {
-        const res = await fetch('http://localhost:8000/habit/submit-count/', {
-            method: 'POST',
+        const res = await fetch("http://localhost:8000/habit/stats/", {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: JSON.stringify({}),
+            }
         })
         if (res.ok) {
             const json = await res.json()
             setData(json)
         }
     }
+    const getToken = () => localStorage.getItem('access') || localStorage.getItem('token');
 
     const submitLog = async (e: any) => {
         e.preventDefault()
@@ -38,7 +37,8 @@ export default function HomePage() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                Authorization: `Bearer ${getToken()}`,
+
             },
             body: JSON.stringify(form),
         })
@@ -66,7 +66,7 @@ export default function HomePage() {
 
                 {/* فرم ثبت لاگ */}
                 <form onSubmit={submitLog} className="bg-white p-4 rounded-lg shadow space-y-4 text-right">
-                    <h2 className="text-lg font-bold">ثبت ورزش امروز 🎯</h2>
+                    <h2 className="text-lg font-bold">ثبت فعالیت امروز 🎯</h2>
                     <input
                         type="number"
                         placeholder="تعداد قدم"
@@ -91,7 +91,7 @@ export default function HomePage() {
                         type="submit"
                         className="bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500"
                     >
-                        ثبت لاگ 🚀
+                        حله  🚀
                     </button>
                     {message && <p className="text-sm text-green-600">{message}</p>}
                 </form>
