@@ -22,49 +22,73 @@ const Login: React.FC = () => {
         };
 
         const url = process.env.NEXT_PUBLIC_API_URL + "/api/account/";
-        const response = await axios.post(url, body, config);
 
-        if (response.data.access) {
-            localStorage.setItem('access', response.data.access);
-            localStorage.setItem('refresh', response.data.refresh);
-            router.push('/home');
+        try {
+            
+            const response = await axios.post(url, body, config);
+            if (response.data.access) {
+                localStorage.setItem('access', response.data.access);
+                localStorage.setItem('refresh', response.data.refresh);
+                router.push('/home');
+            }
+        } catch(error){
+            console.log(error)
         }
+
+
 
         setLoading(false);
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-pink-100 to-yellow-100 p-6 text-gray-900">
-            <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow space-y-6 text-right">
-                <h1 className="text-2xl font-bold text-center text-pink-600">ورود به فیت‌باند 🐢</h1>
+        <main className="min-h-screen flex items-center justify-center bg-[#f7f7f5] px-4">
+            <div className="w-full max-w-md bg-white rounded-xl shadow-lg border-4 border-[#ff5734]/30 px-6 py-8">
+                <h1 className="text-3xl font-retro font-bold text-center text-[#151313] mb-6">
+                    ورود به <span className="text-[#ff5734]">کانسیس</span> 🐢
+                </h1>
 
-                <form onSubmit={handleLoginSubmit} className="space-y-4">
-                    <input
-                        type="email"
-                        placeholder="ایمیل"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border border-gray-300 p-2 rounded text-right"
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="رمز عبور"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full border border-gray-300 p-2 rounded text-right"
-                        required
-                    />
+                <form onSubmit={handleLoginSubmit} className="space-y-4 font-retro text-[#151313]">
+                    <div>
+                        <label className="block mb-1 text-sm font-semibold">ایمیل</label>
+                        <input
+                            type="email"
+                            value={email}
+                            placeholder="email@example.com"
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full rounded-xl border border-[#ccc] px-4 py-2 focus:ring-2 focus:ring-[#be94f5] focus:outline-none"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block mb-1 text-sm font-semibold">رمز عبور</label>
+                        <input
+                            type="password"
+                            value={password}
+                            placeholder="••••••••"
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full rounded-xl border border-[#ccc] px-4 py-2 focus:ring-2 focus:ring-[#be94f5] focus:outline-none"
+                            required
+                        />
+                    </div>
+
                     <button
                         type="submit"
-                        className="w-full bg-pink-400 text-white py-2 rounded hover:bg-pink-500 transition"
+                        className="w-full mt-4 bg-[#ff5734] hover:bg-[#ff5734]/90 text-white font-bold text-lg py-3 rounded-xl transition-all duration-200"
                         disabled={loading}
                     >
-                        {loading ? 'لطفاً منتظر بمانید...' : 'ورود 🚀'}
+                        {loading ? 'در حال ورود...' : '🚀 ورود'}
                     </button>
                 </form>
+
+                <p className="text-sm text-center text-gray-600 mt-6">
+                    هنوز ثبت‌نام نکردی؟{' '}
+                    <a href="/register" className="text-[#be94f5] hover:underline">
+                        ثبت‌نام
+                    </a>
+                </p>
             </div>
-        </div>
+        </main>
 
     );
 };

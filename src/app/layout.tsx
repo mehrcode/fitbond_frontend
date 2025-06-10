@@ -1,23 +1,22 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/app/components/Navbar"; 
+import { Kodchasan } from "next/font/google";
 
-export const metadata: Metadata = {
-  title: "Fitbond App",
-  description: "Lifestyle, Habbit tracker",
+const kodchasan = Kodchasan({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+  variable: "--font-kodchasan",
+});
+
+export const metadata = {
+  title: "Consis",
+  description: "Track your creative streaks 🧠✨",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fa">
-      <body className="bg-[#fef8e0] text-black font-sans">
-        <Navbar />
-        <main className="p-6">{children}</main>
-      </body>
+    <html lang="en" className={`${kodchasan.variable}`}>
+      <body className="font-kodchasan bg-offWhite text-base">{children}</body>
     </html>
   );
 }

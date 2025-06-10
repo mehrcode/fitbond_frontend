@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -9,7 +9,7 @@ const Register: React.FC = () => {
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
 
-    const handleLoginSubmit = async (e: React.FormEvent) => {
+    const handleRegisterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const formData = {
@@ -39,51 +39,62 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-[#fdf6e3] rounded-2xl shadow-retro border-4 border-[#ffb347] text-black">
-            <h1 className="text-2xl font-bold mb-6 text-center text-[#4b2e83] font-retro">
-                ثبت‌ نام  
-            </h1>
+        <main className="min-h-screen flex items-center justify-center bg-[#f7f7f5] px-4">
+            <div className="w-full max-w-md bg-white rounded-xl shadow-lg border-4 border-[#ff5734]/30 px-6 py-8">
+                <h1 className="text-3xl font-retro font-bold text-center text-[#151313] mb-6">
+                    ثبت‌نام در <span className="text-[#ff5734]">کانسیس</span> 🎠
+                </h1>
 
-            <form onSubmit={handleLoginSubmit} className="space-y-4">
-                <div>
-                    <label className="block mb-1 text-[#4b2e83] font-retro">ایمیل</label>
-                    <input
-                        type="email"
-                        placeholder="example@email.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-2 rounded-lg border border-[#f7c59f] focus:outline-none focus:ring-2 focus:ring-[#ffb347] bg-white"
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1 text-[#4b2e83] font-retro">رمز عبور</label>
-                    <input
-                        type="password"
-                        placeholder="رمز عبور را وارد کنید"
-                        value={password1}
-                        onChange={(e) => setPassword1(e.target.value)}
-                        className="w-full p-2 rounded-lg border border-[#f7c59f] focus:outline-none focus:ring-2 focus:ring-[#ffb347] bg-white"
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1 text-[#4b2e83] font-retro">تکرار رمز عبور</label>
-                    <input
-                        type="password"
-                        placeholder="رمز را دوباره وارد کنید"
-                        value={password2}
-                        onChange={(e) => setPassword2(e.target.value)}
-                        className="w-full p-2 rounded-lg border border-[#f7c59f] focus:outline-none focus:ring-2 focus:ring-[#ffb347] bg-white"
-                    />
-                </div>
+                <form onSubmit={handleRegisterSubmit} className="space-y-4 font-retro text-[#151313]">
+                    <div>
+                        <label className="block mb-1 text-sm font-semibold">ایمیل</label>
+                        <input
+                            type="email"
+                            value={email}
+                            placeholder="email@example.com"
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full rounded-xl border border-[#ccc] px-4 py-2 focus:ring-2 focus:ring-[#be94f5] focus:outline-none"
+                        />
+                    </div>
 
-                <button
-                    type="submit"
-                    className="w-full py-2 bg-[#4b2e83] text-white rounded-xl font-retro text-lg hover:bg-[#7b4bbb] transition duration-200 mt-4"
-                >
-                    🎠 بزن بریم
-                </button>
-            </form>
-        </div>
+                    <div>
+                        <label className="block mb-1 text-sm font-semibold">رمز عبور</label>
+                        <input
+                            type="password"
+                            value={password1}
+                            placeholder="••••••••"
+                            onChange={(e) => setPassword1(e.target.value)}
+                            className="w-full rounded-xl border border-[#ccc] px-4 py-2 focus:ring-2 focus:ring-[#be94f5] focus:outline-none"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block mb-1 text-sm font-semibold">تکرار رمز عبور</label>
+                        <input
+                            type="password"
+                            value={password2}
+                            placeholder="••••••••"
+                            onChange={(e) => setPassword2(e.target.value)}
+                            className="w-full rounded-xl border border-[#ccc] px-4 py-2 focus:ring-2 focus:ring-[#be94f5] focus:outline-none"
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full mt-4 bg-[#ff5734] hover:bg-[#ff5734]/90 text-white font-bold text-lg py-3 rounded-xl transition-all duration-200"
+                    >
+                        🎉 ثبت‌نام کن
+                    </button>
+                </form>
+
+                <p className="text-sm text-center text-gray-600 mt-6">
+                    قبلاً اکانت ساختی؟{' '}
+                    <a href="/login" className="text-[#be94f5] hover:underline">
+                        ورود
+                    </a>
+                </p>
+            </div>
+        </main>
     );
 };
 
