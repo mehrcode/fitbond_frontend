@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Kodchasan } from "next/font/google";
+import Navbar from "./components/Navbar";
 
 const kodchasan = Kodchasan({
   subsets: ["latin"],
@@ -16,7 +17,16 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${kodchasan.variable}`}>
-      <body className="font-kodchasan bg-offWhite text-base">{children}</body>
+      <body className="font-kodchasan bg-offWhite text-base">
+        <div className="p-4">
+          <Navbar
+            username="mehrnoosh"
+            profile_image="/avatar_placeholder.png"
+          />
+        </div>
+
+        {children}
+      </body>
     </html>
   );
 }

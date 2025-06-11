@@ -1,7 +1,6 @@
 'use client'
-import { useState } from 'react'
 import UserProfileCard from '../components/UserProfileCard'
-
+import TrackList from '../components/TrackList'
 
 export default function HomePage() {
 
@@ -9,6 +8,7 @@ export default function HomePage() {
     return (
         <div>
             <UserProfileCard />
+            <TrackList />
         </div>
     )
 }

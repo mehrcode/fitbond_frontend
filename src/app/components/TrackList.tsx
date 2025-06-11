@@ -9,7 +9,9 @@ type Track = {
     created_at: string
     last_log: {
         date: string
-        note: string
+        minutes: number
+        score: number
+        progress_note: string
     } | null
     streak_days: number
 }
@@ -20,7 +22,7 @@ export default function TrackList() {
 
     useEffect(() => {
         axios
-            .get("/api/account/my-tracks/", {
+            .get("http://localhost:8000/api/account/my-tracks/", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("access")}`,
                 },
@@ -37,10 +39,11 @@ export default function TrackList() {
                 <div key={track.id}
                     className="bg-[#f7f7f5] rounded-xl p-4 shadow-sm border border-[#eee]">
                     <h3 className="text-lg font-bold text-[#151313]">{track.name}</h3>
+                    <h3 className="text-lg font-bold text-[#151313]">{track.goal}</h3>
                     <p className="text-sm text-gray-600 mt-1">
                         آخرین لاگ:{" "}
-                        {track.last_log
-                            ? `${track.last_log.date} - ${track.last_log.note}`
+                        {track.last_log && track.last_log.date
+                            ? `${track.last_log.date} - ${track.last_log.progress_note} - ${track.last_log.score}`
                             : "هنوز لاگی نداری"}
                     </p>
 
